@@ -1,15 +1,15 @@
 from setuptools import setup
 
-from ssl_metrics_MODULE_NAME import version
+from ssl_metrics_github_issue_engagement import version
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="ssl-metrics-MODULE-NAME",
-    packages=["ssl_metrics_MODULE_NAME"],
+    name="ssl-metrics-github-issue-engagement",
+    packages=["ssl_metrics_github_issue_engagement"],
     version=version.version(),
-    description="SSL Metrics - SHORT DESCRIPTION",
+    description="SSL Metrics - GitHub repository issues engagement analysis",
     author="Software and Systems Laboratory - Loyola University Chicago",
     author_email="ssl-metrics@ssl.luc.edu",
     license="BSD",
@@ -17,8 +17,8 @@ setup(
     long_description_content_type="text/markdown",
     url="https://ssl.cs.luc.edu/projects/metricsDashboard",
     project_urls={
-        "Bug Tracker": "https://github.com/SoftwareSystemsLaboratory/ssl-metrics-REPOSITORY-NAME/issues",
-        "GitHub Repository": "https://github.com/SoftwareSystemsLaboratory/ssl-metrics-REPOSITORY-NAME",
+        "Bug Tracker": "https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issue-engagement/issues",
+        "GitHub Repository": "https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issues",
     },
     keywords=[
         "git",
@@ -49,12 +49,14 @@ setup(
     ],
     python_requires=">=3.9",
     install_requires=[
-        # ADD ME
+        "numpy",
+        "matplotlib",
+        "pandas",
     ],
     entry_points={
         "console_scripts": [
-            "ssl-metrics-MODULE-NAME-collect = ssl_metrics_MODULE_NAME.FILENAME:main",
-            "ssl-metrics-MODULE-NAME-graph = ssl_metrics_MODULE_NAME.create_graph:main",
+            "ssl-metrics-github-issue-engagement-collect = ssl_metrics_github_issue_engagement.process_issues:main",
+            "ssl-metrics-github-issue-engagement-graph = ssl_metrics_github_issue_engagement.create_graph:main",
         ]
     },
 )
