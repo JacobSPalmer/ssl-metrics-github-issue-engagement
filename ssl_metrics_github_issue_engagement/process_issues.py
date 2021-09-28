@@ -1,9 +1,9 @@
+import json
+# TODO specify from _ import _
+import pathlib
 from argparse import ArgumentParser, Namespace
 from os.path import exists
 
-#TODO specify from _ import _
-import pathlib
-import json
 
 def get_argparse() -> Namespace:
     parser: ArgumentParser = ArgumentParser(
@@ -14,7 +14,7 @@ def get_argparse() -> Namespace:
         "-i",
         "--input",
         help="Raw repository issues json file to be used. These files can be generated using the "
-             "ssl-metrics-github-issues tool.",
+        "ssl-metrics-github-issues tool.",
         default="issues.json",
         type=str,
         required=False,
@@ -29,45 +29,35 @@ def get_argparse() -> Namespace:
     )
     return parser.parse_args()
 
-def getIssueEngagementReport(
-        input_json: str,
-) -> list:
 
-    with open(pathlib.Path("../issues.json")) as json_file:
-    # with open("issues.json") as json_file:
+def getIssueEngagementReport(input_json: str,) -> list:
+
+    with open(input_json, "r") as json_file:
+        # with open("issues.json") as json_file:
         data = json.load(json_file)
-        data = [dict(issue_number=k1['number'],
-                     comments=k1['comments']) for k1 in data]
+        data = [dict(issue_number=k1["number"], comments=k1["comments"]) for k1 in data]
+        json_file.close()
 
     return data
 
-def storeJSON(
-        issues: list,
-        output_file: str,
-) -> bool:
+
+def storeJSON(issues: list, output_file: str,) -> bool:
+    # json.dump(issues)
     data = json.dumps(issues)
-    file = pathlib.Path("../{}".format(output_file))
-    # file = output_file
-    with open(file=file, mode="w") as json_file:
+    with open(file=output_file, mode="w") as json_file:
         json_file.write(data)
-    return exists(file)
+    return exists(output_file)
+
 
 def main() -> None:
     args: Namespace = get_argparse()
 
-    issues_json = getIssueEngagementReport(
-        input_json=args.input,
-    )
+    issues_json = getIssueEngagementReport(input_json=args.input,)
 
     storeJSON(
-        issues=issues_json,
-        output_file=args.save_json,
+        issues=issues_json, output_file=args.save_json,
     )
+
 
 if __name__ == "__main__":
-    # main()
-    storeJSON(
-        issues=getIssueEngagementReport("input.json"),
-        output_file="IE_report.json",
-    )
-
+    main()
