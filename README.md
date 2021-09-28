@@ -1,8 +1,8 @@
 # SSL Metrics Template Python Repository
 
-> 
+> Proof of Concept: Calculating issue engagment metrics from GitHub Issues
 
-[![Publish to PyPi](https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issues-engagement/actions/workflows/pypi.yml/badge.svg)](https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issues-engagement/actions/workflows/pypi.yml)
+[![Publish to PyPi](https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issue-engagement/actions/workflows/pypi.yml/badge.svg)](https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issue-engagement/actions/workflows/pypi.yml)
 
 ## Table of Contents
 
