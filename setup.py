@@ -1,5 +1,4 @@
 from setuptools import setup
-
 from ssl_metrics_MODULE_NAME import version
 
 with open("README.md", "r", encoding="utf-8") as fh:
