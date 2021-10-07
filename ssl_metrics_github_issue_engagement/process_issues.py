@@ -4,6 +4,8 @@ import json
 import pathlib
 from argparse import ArgumentParser, Namespace
 from os.path import exists
+from datetime import datetime
+from dateutil.parser import parse
 
 
 def get_argparse() -> Namespace:
@@ -38,8 +40,28 @@ def getIssueEngagementReport(
     with open(input_json, "r") as json_file:
         # with open("issues.json") as json_file:
         data = json.load(json_file)
-        data = [dict(issue_number=k1["number"], comments=k1["comments"]) for k1 in data]
+        data = [
+            dict(
+                issue_number=k1["number"],
+                comments=k1["comments"],
+                created_at=k1["created_at"],
+                closed_at=k1["closed_at"],
+                state=k1["state"],
+            )
+            for k1 in data
+        ]
         json_file.close()
+
+    removal_List = []
+
+    for issue in data:
+        createdDate: datetime = parse(issue["created_at"]).replace(tzinfo=None)
+        today: datetime = datetime.now(tz=None)
+        if (today - createdDate).days > 40: # TODO: Make this into a command line arg for a window of time
+            removal_List.append(issue)
+
+    for issue in removal_List:
+        data.remove(issue)
 
     return data
 
