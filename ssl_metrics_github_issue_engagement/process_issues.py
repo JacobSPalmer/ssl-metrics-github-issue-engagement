@@ -1,8 +1,11 @@
 import json
+
 # TODO specify from _ import _
 import pathlib
 from argparse import ArgumentParser, Namespace
 from os.path import exists
+from datetime import datetime
+from dateutil.parser import parse
 
 
 def get_argparse() -> Namespace:
@@ -30,18 +33,43 @@ def get_argparse() -> Namespace:
     return parser.parse_args()
 
 
-def getIssueEngagementReport(input_json: str,) -> list:
+def getIssueEngagementReport(
+    input_json: str,
+) -> list:
 
     with open(input_json, "r") as json_file:
         # with open("issues.json") as json_file:
         data = json.load(json_file)
-        data = [dict(issue_number=k1["number"], comments=k1["comments"]) for k1 in data]
+        data = [
+            dict(
+                issue_number=k1["number"],
+                comments=k1["comments"],
+                created_at=k1["created_at"],
+                closed_at=k1["closed_at"],
+                state=k1["state"],
+            )
+            for k1 in data
+        ]
         json_file.close()
+
+    removal_List = []
+
+    for issue in data:
+        createdDate: datetime = parse(issue["created_at"]).replace(tzinfo=None)
+        today: datetime = datetime.now(tz=None)
+        if (today - createdDate).days > 40: # TODO: Make this into a command line arg for a window of time
+            removal_List.append(issue)
+
+    for issue in removal_List:
+        data.remove(issue)
 
     return data
 
 
-def storeJSON(issues: list, output_file: str,) -> bool:
+def storeJSON(
+    issues: list,
+    output_file: str,
+) -> bool:
     # json.dump(issues)
     data = json.dumps(issues)
     with open(file=output_file, mode="w") as json_file:
@@ -52,10 +80,13 @@ def storeJSON(issues: list, output_file: str,) -> bool:
 def main() -> None:
     args: Namespace = get_argparse()
 
-    issues_json = getIssueEngagementReport(input_json=args.input,)
+    issues_json = getIssueEngagementReport(
+        input_json=args.input,
+    )
 
     storeJSON(
-        issues=issues_json, output_file=args.save_json,
+        issues=issues_json,
+        output_file=args.save_json,
     )
 
 
