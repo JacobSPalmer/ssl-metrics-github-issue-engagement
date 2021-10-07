@@ -1,4 +1,5 @@
 import json
+
 # TODO specify from _ import _
 import pathlib
 from argparse import ArgumentParser, Namespace
@@ -30,7 +31,9 @@ def get_argparse() -> Namespace:
     return parser.parse_args()
 
 
-def getIssueEngagementReport(input_json: str,) -> list:
+def getIssueEngagementReport(
+    input_json: str,
+) -> list:
 
     with open(input_json, "r") as json_file:
         # with open("issues.json") as json_file:
@@ -41,7 +44,10 @@ def getIssueEngagementReport(input_json: str,) -> list:
     return data
 
 
-def storeJSON(issues: list, output_file: str,) -> bool:
+def storeJSON(
+    issues: list,
+    output_file: str,
+) -> bool:
     # json.dump(issues)
     data = json.dumps(issues)
     with open(file=output_file, mode="w") as json_file:
@@ -52,10 +58,13 @@ def storeJSON(issues: list, output_file: str,) -> bool:
 def main() -> None:
     args: Namespace = get_argparse()
 
-    issues_json = getIssueEngagementReport(input_json=args.input,)
+    issues_json = getIssueEngagementReport(
+        input_json=args.input,
+    )
 
     storeJSON(
-        issues=issues_json, output_file=args.save_json,
+        issues=issues_json,
+        output_file=args.save_json,
     )
 
 
