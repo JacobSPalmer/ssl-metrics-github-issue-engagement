@@ -61,7 +61,6 @@ def createIntervalTree(
 
     return tree
 
-
 def fillDictBasedOnKeyValue(
     dictionary: dict, tree: IntervalTree, key: str, value: Any
 ) -> dict:
